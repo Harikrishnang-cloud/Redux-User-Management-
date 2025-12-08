@@ -1,0 +1,55 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+// import type {RootState} from "../../store/Store";
+import {Api} from "../../Api/userApi"
+import {login} from "../../store/admin/AdminSlice"
+import {admintokenStore} from "../../store/admin/AdminToken";
+import {useNavigate} from "react-router-dom"
+import {toast} from "react-toastify"
+
+function Login(){
+    const [email,setEmail] = useState("")
+    const [password,setPassword] = useState("")
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+    // const token = useSelector((state:RootState)=>state.adminToken.token)
+    const handleSubmit = async(e:React.FormEvent)=>{
+        e.preventDefault()
+        try{
+            const res = await Api.post('/admin/login',{email,password})
+            dispatch(login(res.data.admin))
+            dispatch(admintokenStore(res.data.token))
+            navigate("/admin/dashboard")
+        }
+        catch(error:unknown){
+            console.log(error)
+            if (error instanceof Error) {
+             console.log(error.message)
+            }
+            else{
+                toast.error("Login failed")
+            }
+        }
+    }
+    return(
+        <div className="flex justify-center items-center min-h-screen bg-green-900">
+            <div className="bg-white shadow-lg rounded-2xl p-8 w-96">
+                <h2 className="text-2xl font-bold text-center mb-4 text-green-900">Admin Login</h2>
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <input type="email" placeholder="Email" value={email} onChange={(e)=>setEmail(e.target.value)} 
+                    className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-900"></input>
+
+                    <input type="password" placeholder="password" value={password} onChange={(e)=>setPassword(e.target.value)} 
+                    className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-900"></input>
+                    <button>Submit</button>
+                </form>
+                
+
+            </div>
+
+        </div>
+    )
+}
+
+
+export default Login
