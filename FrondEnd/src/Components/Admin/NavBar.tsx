@@ -12,7 +12,7 @@ function NavBar(){
     const navigate = useNavigate()
 
     const logout = async()=>{
-        await Api.get('/admin/logout',{withCredentials:true})
+        await Api.get('/user/logout')
         dispatch(logoutUser())
         navigate('/admin/login')
         toast.success("Logout successfully...")

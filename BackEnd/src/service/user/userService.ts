@@ -35,7 +35,7 @@ export class userService implements IuserService{
         if(!user.name){
             throw new Error('name is required...')
         }
-        const updateName = await this.userrepository.updateuser(id,{name:user.name})
+        const updateName = await this.userrepository.updateuser(id,{name:user.name, profileImage: user.profileImage})
         if(!updateName){
             throw new Error("user not found")
         }

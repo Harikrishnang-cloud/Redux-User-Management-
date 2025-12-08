@@ -23,6 +23,7 @@ export class AdminRouter{
         this.adminRouter.get('/getDetailsOfSpecificuser/:id',(req:Request,res:Response)=>{
             this.adminController.getuserDetails(req,res)
         })
+        
     }
     public getAdminRouter(){
         return this.adminRouter;

@@ -2,13 +2,14 @@
 import {  useRef, useState } from "react";
 import NavBar from "./NavBar";
 import { Api } from "../../Api/userApi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../store/Store";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { FaTrashAlt } from "react-icons/fa";
 import type { userType } from "../../types/user";
 import { useNavigate } from "react-router-dom";
+import { updateUser } from "../../store/user/AuthSlice";
 
 function Profile() {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -20,10 +21,13 @@ function Profile() {
   const handleImageClick = () => {
     fileInputRef.current?.click();
   };
+  const dispatch = useDispatch()
 
   const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    
     const file = e.target.files?.[0];
     if (!file || !user?._id) return;
+    
 
     const formdata = new FormData();
     formdata.append("file", file);
@@ -36,11 +40,12 @@ function Profile() {
       );
       const data = await cloudinaryRes.data;
       const imageUrl: string = data.secure_url;
-      await Api.put(`/user/editProfile/${user._id}`, {
+      const response = await Api.put(`/user/editProfile/${user._id}`, {
         ...userData,
         profileImage: imageUrl,
       });
       setUserdata((prev) => ({ ...prev, profileImage: imageUrl! }));
+      dispatch(updateUser(response.data.update))
     } catch (error) {
       console.error("Error uploading image:", error);
     }
@@ -55,10 +60,12 @@ function Profile() {
     if (!user?._id) return;
 
     try {
-      await Api.put(`/user/editProfile/${user._id}`, {
+
+      const response = await Api.put(`/user/editProfile/${user._id}`, {
         ...userData,
         profileImage: "",
       });
+      dispatch(updateUser(response.data.update))
       setUserdata((prev) => ({ ...prev, profileImage: "" }));
       toast.success("Profile photo removed!");
     } catch (error) {
@@ -91,10 +98,11 @@ function Profile() {
 
     try {
       const updateData = { ...userData };
-      await Api.put(`/user/editProfile/${user?._id}`, updateData);
+      const response = await Api.put(`/user/editProfile/${user?._id}`, updateData);
       toast.success("Profile updated successfully");
       setEditMode(false);
       navigate("/home")
+      dispatch(updateUser(response.data.update))
     } catch (error) {
       console.error("Error updating profile:", error);
     }

@@ -17,16 +17,17 @@ const AuthSlice = createSlice({
         login:(state,action)=>{
             state.user = action.payload
         },
+
         logoutUser:(state)=>{
             state.user = null
         },
-        updateImage:(state,action)=>{
+        updateUser:(state,action)=>{
             if(state.user){
-                state.user= {...state.user, imageUrl:action.payload.image}
+                state.user= {...state.user, ...action.payload}
             }
         }
     }
 })
 
-export const {login,logoutUser, updateImage} =AuthSlice.actions
+export const {login,logoutUser, updateUser} =AuthSlice.actions
 export default AuthSlice.reducer
