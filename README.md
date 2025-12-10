@@ -1,0 +1,1 @@
+Added a complete User Management module using Redux Toolkit. This update includes global state handling for user login, logout, role-based access, and admin-level user list operations. Integrated async thunks for API calls (fetch, add, update, delete users) with proper loading and error states. The structure follows a clean repository pattern for scalable and maintainable code.
