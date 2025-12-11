@@ -9,7 +9,7 @@ function Home() {
   return (
     <>
       <NavBar />
-      <div className="min-h-screen bg-emerald-200 text-center py-12 shadow-sm">
+      <div className="min-h-screen bg-emerald-90 text-center py-12 shadow-sm">
         <img src={user?.profileImage || ""} className="w-24 h-24 mx-auto rounded-full mb-4 shadow-lg"/>
         <h2 className="text-3xl font-bold text-gray-800">Welcome, {user?.name || 'Guest'}!</h2>
         <p className="text-gray-600 mt-2">We are happy to see you.</p>

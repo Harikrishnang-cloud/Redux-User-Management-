@@ -5,6 +5,7 @@ import ProtectedRoute from "./Protect/ProtectRouteUser";
 import DashBoard from "./Components/Admin/Dashboard";
 import HomePage from "./Pages/HomePage";
 import ProfilePage from "./Pages/ProfilePage";
+import Services from "./Pages/Services";
 import Login from "./Components/Admin/Login";
 import { ToastContainer } from "react-toastify";
 import AddUser from "./Components/Admin/AddUser";
@@ -26,6 +27,7 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/services" element={<Services/>}/>
           <Route
             path="/home"
             element={
